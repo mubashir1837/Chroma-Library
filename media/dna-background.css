@@ -1,0 +1,223 @@
+/* DNA Helix Background Motif Styles */
+
+:root {
+  --dna-primary: #00ffcc;
+  --dna-secondary: #3742fa;
+  --dna-tertiary: #ff4757;
+  --dna-quaternary: #ffa502;
+  --dna-opacity: 0.08;
+  --dna-size: 48px;
+  --dna-spacing: 80px;
+}
+
+/* Main DNA Background Layer */
+.monaco-workbench.dna-theme {
+  position: relative;
+}
+
+.monaco-workbench.dna-theme::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='dnaPattern' x='0' y='0' width='80' height='80' patternUnits='userSpaceOnUse'%3E%3Ctext x='40' y='40' font-size='32' text-anchor='middle' dominant-baseline='central' fill='%2300ffcc' opacity='0.08'%3E🧬%3C/text%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23dnaPattern)'/%3E%3C/svg%3E");
+  background-size: var(--dna-spacing) var(--dna-spacing);
+  background-position: 0 0;
+  background-repeat: repeat;
+  opacity: var(--dna-opacity);
+  pointer-events: none;
+  z-index: -1;
+  animation: dnaFloat 30s ease-in-out infinite;
+}
+
+/* DNA Background Animation */
+@keyframes dnaFloat {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: var(--dna-opacity);
+  }
+  25% {
+    transform: translateY(-10px) rotate(1deg);
+    opacity: calc(var(--dna-opacity) * 1.2);
+  }
+  50% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: var(--dna-opacity);
+  }
+  75% {
+    transform: translateY(10px) rotate(-1deg);
+    opacity: calc(var(--dna-opacity) * 0.8);
+  }
+}
+
+/* Editor-specific DNA background */
+.monaco-editor.dna-theme .view-lines {
+  position: relative;
+}
+
+.monaco-editor.dna-theme .view-lines::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='editorDnaPattern' x='0' y='0' width='60' height='60' patternUnits='userSpaceOnUse'%3E%3Cg fill='%2300ffcc' opacity='0.05'%3E%3Cpath d='M15 15 Q30 25 45 15 Q30 35 15 45 Q30 35 45 45 Q30 25 15 15' stroke='currentColor' stroke-width='1' fill='none'/%3E%3Ccircle cx='15' cy='20' r='1' fill='currentColor'/%3E%3Ccircle cx='45' cy='20' r='1' fill='currentColor'/%3E%3Ccircle cx='15' cy='40' r='1' fill='currentColor'/%3E%3Ccircle cx='45' cy='40' r='1' fill='currentColor'/%3E%3C/g%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23editorDnaPattern)'/%3E%3C/svg%3E");
+  background-size: 60px 60px;
+  background-position: 0 0;
+  background-repeat: repeat;
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Sidebar DNA enhancement */
+.monaco-workbench .part.sidebar.dna-theme {
+  position: relative;
+}
+
+.monaco-workbench .part.sidebar.dna-theme::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='sidebarDnaPattern' x='0' y='0' width='40' height='40' patternUnits='userSpaceOnUse'%3E%3Ctext x='20' y='20' font-size='16' text-anchor='middle' dominant-baseline='central' fill='%2300ffcc' opacity='0.04'%3E🧬%3C/text%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23sidebarDnaPattern)'/%3E%3C/svg%3E");
+  background-size: 40px 40px;
+  background-position: 0 0;
+  background-repeat: repeat;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Terminal DNA background */
+.monaco-workbench .part.panel .terminal-wrapper.dna-theme {
+  position: relative;
+}
+
+.monaco-workbench .part.panel .terminal-wrapper.dna-theme::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg width='50' height='50' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='terminalDnaPattern' x='0' y='0' width='50' height='50' patternUnits='userSpaceOnUse'%3E%3Cg fill='%2300ffcc' opacity='0.03'%3E%3Cpath d='M10 10 Q25 20 40 10 Q25 30 10 40 Q25 30 40 40 Q25 20 10 10' stroke='currentColor' stroke-width='0.5' fill='none'/%3E%3Cline x1='15' y1='15' x2='35' y2='15' stroke='currentColor' stroke-width='0.3'/%3E%3Cline x1='15' y1='35' x2='35' y2='35' stroke='currentColor' stroke-width='0.3'/%3E%3C/g%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23terminalDnaPattern)'/%3E%3C/svg%3E");
+  background-size: 50px 50px;
+  background-position: 0 0;
+  background-repeat: repeat;
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Random DNA Pattern */
+.dna-pattern-random::before {
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='20' y='30' font-size='24' fill='%2300ffcc' opacity='0.08'%3E🧬%3C/text%3E%3Ctext x='70' y='60' font-size='20' fill='%233742fa' opacity='0.06'%3E🧬%3C/text%3E%3Ctext x='40' y='80' font-size='28' fill='%23ff4757' opacity='0.07'%3E🧬%3C/text%3E%3Ctext x='10' y='70' font-size='22' fill='%23ffa502' opacity='0.05'%3E🧬%3C/text%3E%3Ctext x='80' y='20' font-size='26' fill='%2300ffcc' opacity='0.09'%3E🧬%3C/text%3E%3C/svg%3E");
+  background-size: 100px 100px;
+  animation: dnaRandomFloat 25s ease-in-out infinite;
+}
+
+@keyframes dnaRandomFloat {
+  0%,
+  100% {
+    transform: translate(0px, 0px) rotate(0deg);
+  }
+  25% {
+    transform: translate(-5px, -8px) rotate(2deg);
+  }
+  50% {
+    transform: translate(3px, 5px) rotate(-1deg);
+  }
+  75% {
+    transform: translate(-2px, 8px) rotate(1deg);
+  }
+}
+
+/* Helix DNA Pattern with Rotation */
+.dna-pattern-helix::before {
+  background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='helixDnaPattern' x='0' y='0' width='80' height='80' patternUnits='userSpaceOnUse'%3E%3Cg fill='%2300ffcc' opacity='0.08'%3E%3Cpath d='M20 10 Q40 30 60 10 Q40 50 20 70 Q40 50 60 70 Q40 30 20 10' stroke='currentColor' stroke-width='2' fill='none'/%3E%3Cpath d='M60 10 Q40 30 20 10 Q40 50 60 70 Q40 50 20 70 Q40 30 60 10' stroke='currentColor' stroke-width='2' fill='none'/%3E%3Cline x1='25' y1='20' x2='55' y2='20' stroke='currentColor' stroke-width='1'/%3E%3Cline x1='25' y1='40' x2='55' y2='40' stroke='currentColor' stroke-width='1'/%3E%3Cline x1='25' y1='60' x2='55' y2='60' stroke='currentColor' stroke-width='1'/%3E%3Ccircle cx='25' cy='20' r='1.5' fill='%233742fa'/%3E%3Ccircle cx='55' cy='20' r='1.5' fill='%23ff4757'/%3E%3Ccircle cx='25' cy='40' r='1.5' fill='%23ffa502'/%3E%3Ccircle cx='55' cy='40' r='1.5' fill='%2300ffcc'/%3E%3Ccircle cx='25' cy='60' r='1.5' fill='%233742fa'/%3E%3Ccircle cx='55' cy='60' r='1.5' fill='%23ff4757'/%3E%3C/g%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23helixDnaPattern)'/%3E%3C/svg%3E");
+  background-size: 80px 80px;
+  animation: dnaHelixRotate 40s linear infinite;
+}
+
+@keyframes dnaHelixRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive DNA Background */
+@media (max-width: 768px) {
+  .monaco-workbench.dna-theme::before {
+    background-size: 60px 60px;
+  }
+
+  .monaco-editor.dna-theme .view-lines::before {
+    background-size: 40px 40px;
+  }
+}
+
+/* High contrast mode adjustments */
+@media (prefers-contrast: high) {
+  .monaco-workbench.dna-theme::before {
+    opacity: calc(var(--dna-opacity) * 0.5);
+  }
+
+  .monaco-editor.dna-theme .view-lines::before {
+    opacity: 0.3;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .monaco-workbench.dna-theme::before,
+  .dna-pattern-random::before,
+  .dna-pattern-helix::before {
+    animation: none;
+  }
+}
+
+/* DNA Background Glow Effect */
+.dna-glow-enabled .monaco-workbench.dna-theme::before {
+  filter: drop-shadow(0 0 10px var(--dna-primary));
+}
+
+.dna-glow-enabled .monaco-editor.dna-theme .view-lines::before {
+  filter: drop-shadow(0 0 5px var(--dna-primary));
+}
+
+/* Scientific Lab Feel Enhancements */
+.monaco-workbench.dna-theme {
+  background: linear-gradient(135deg, #020408 0%, #0a0f1a 30%, #051015 70%, #1a2030 100%);
+}
+
+/* Molecular Bond Connections */
+.dna-connections-enabled::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: linear-gradient(
+      45deg,
+      transparent 48%,
+      var(--dna-primary) 49%,
+      var(--dna-primary) 51%,
+      transparent 52%
+    ), linear-gradient(-45deg, transparent 48%, var(--dna-secondary) 49%, var(--dna-secondary) 51%, transparent 52%);
+  background-size: 200px 200px, 180px 180px;
+  background-position: 0 0, 50px 50px;
+  opacity: 0.02;
+  pointer-events: none;
+  z-index: -2;
+}

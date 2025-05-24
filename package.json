@@ -1,0 +1,283 @@
+{
+  "name": "neon-futuristic-themes",
+  "displayName": "Neon Futuristic Themes",
+  "description": "Advanced theming extension with customizable neon-futuristic color palettes, gradient backgrounds, and specialized themes for developers",
+  "version": "1.2.0",
+  "publisher": "codewithbismillah",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mubashir1837/neon-futuristic-themes.git"
+  },
+  "categories": [
+    "Themes",
+    "Other"
+  ],
+  "keywords": [
+    "theme",
+    "neon",
+    "futuristic",
+    "dark",
+    "cyberpunk",
+    "customizable",
+    "gradient",
+    "bioinformatics",
+    "dna",
+    "science",
+    "molecular"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "themes": [
+      {
+        "label": "Neon Cyber",
+        "uiTheme": "vs-dark",
+        "path": "./themes/neon-cyber.json"
+      },
+      {
+        "label": "Electric Blue",
+        "uiTheme": "vs-dark",
+        "path": "./themes/electric-blue.json"
+      },
+      {
+        "label": "Plasma Pink",
+        "uiTheme": "vs-dark",
+        "path": "./themes/plasma-pink.json"
+      },
+      {
+        "label": "Quantum Green",
+        "uiTheme": "vs-dark",
+        "path": "./themes/quantum-green.json"
+      },
+      {
+        "label": "Neon Synthwave",
+        "uiTheme": "vs-dark",
+        "path": "./themes/neon-synthwave.json"
+      },
+      {
+        "label": "Deep Ocean",
+        "uiTheme": "vs-dark",
+        "path": "./themes/deep-ocean.json"
+      },
+      {
+        "label": "Toxic Waste",
+        "uiTheme": "vs-dark",
+        "path": "./themes/toxic-waste.json"
+      },
+      {
+        "label": "Solar Flare",
+        "uiTheme": "vs-dark",
+        "path": "./themes/solar-flare.json"
+      },
+      {
+        "label": "Midnight Purple",
+        "uiTheme": "vs-dark",
+        "path": "./themes/midnight-purple.json"
+      },
+      {
+        "label": "DNA Helix 🧬",
+        "uiTheme": "vs-dark",
+        "path": "./themes/dna-helix.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "neonThemes.openCustomizer",
+        "title": "Open Theme Customizer",
+        "category": "Neon Themes"
+      },
+      {
+        "command": "neonThemes.exportTheme",
+        "title": "Export Current Theme",
+        "category": "Neon Themes"
+      },
+      {
+        "command": "neonThemes.importTheme",
+        "title": "Import Theme",
+        "category": "Neon Themes"
+      },
+      {
+        "command": "neonThemes.resetTheme",
+        "title": "Reset Theme to Default",
+        "category": "Neon Themes"
+      },
+      {
+        "command": "neonThemes.toggleGradients",
+        "title": "Toggle Gradient Backgrounds",
+        "category": "Neon Themes"
+      },
+      {
+        "command": "neonThemes.activateBioTheme",
+        "title": "Activate DNA Helix Theme 🧬",
+        "category": "Neon Themes"
+      },
+      {
+        "command": "neonThemes.toggleDNABackground",
+        "title": "Toggle DNA Background Motif 🧬",
+        "category": "Neon Themes"
+      },
+      {
+        "command": "neonThemes.cycleDNAPattern",
+        "title": "Cycle DNA Pattern (Grid/Random/Helix)",
+        "category": "Neon Themes"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "neonThemes.openCustomizer"
+        },
+        {
+          "command": "neonThemes.exportTheme"
+        },
+        {
+          "command": "neonThemes.importTheme"
+        },
+        {
+          "command": "neonThemes.resetTheme"
+        },
+        {
+          "command": "neonThemes.toggleGradients"
+        },
+        {
+          "command": "neonThemes.activateBioTheme"
+        },
+        {
+          "command": "neonThemes.toggleDNABackground",
+          "when": "config.workbench.colorTheme == 'DNA Helix 🧬'"
+        },
+        {
+          "command": "neonThemes.cycleDNAPattern",
+          "when": "config.workbench.colorTheme == 'DNA Helix 🧬'"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Neon Futuristic Themes",
+      "properties": {
+        "neonThemes.enableGlow": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable glow effects for syntax highlighting"
+        },
+        "neonThemes.glowIntensity": {
+          "type": "number",
+          "default": 0.8,
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Intensity of glow effects (0-1)"
+        },
+        "neonThemes.enableGradients": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable gradient backgrounds for VS Code interface"
+        },
+        "neonThemes.gradientIntensity": {
+          "type": "number",
+          "default": 0.6,
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Intensity of gradient backgrounds (0-1)"
+        },
+        "neonThemes.customColors": {
+          "type": "object",
+          "default": {},
+          "description": "Custom color overrides for the active theme"
+        },
+        "neonThemes.autoSwitchTheme": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically switch themes based on time of day"
+        },
+        "neonThemes.animateTransitions": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable smooth transitions when switching themes"
+        },
+        "neonThemes.bioMode": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable bioinformatics-specific features and optimizations"
+        },
+        "neonThemes.dnaBackground.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable DNA helix background motif for DNA Helix theme"
+        },
+        "neonThemes.dnaBackground.pattern": {
+          "type": "string",
+          "enum": [
+            "grid",
+            "random",
+            "helix"
+          ],
+          "default": "grid",
+          "description": "DNA background pattern style"
+        },
+        "neonThemes.dnaBackground.opacity": {
+          "type": "number",
+          "default": 0.08,
+          "minimum": 0.01,
+          "maximum": 0.3,
+          "description": "Opacity of DNA background motif (0.01-0.3)"
+        },
+        "neonThemes.dnaBackground.size": {
+          "type": "number",
+          "default": 48,
+          "minimum": 24,
+          "maximum": 128,
+          "description": "Size of DNA motif elements in pixels"
+        },
+        "neonThemes.dnaBackground.spacing": {
+          "type": "number",
+          "default": 80,
+          "minimum": 40,
+          "maximum": 200,
+          "description": "Spacing between DNA motif elements in pixels"
+        },
+        "neonThemes.dnaBackground.color": {
+          "type": "string",
+          "default": "#00ffcc",
+          "description": "Color of DNA background motif"
+        },
+        "neonThemes.dnaBackground.useEmoji": {
+          "type": "boolean",
+          "default": true,
+          "description": "Use DNA emoji (🧬) instead of SVG for background motif"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/chroma-js": "^3.1.1",
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "16.x",
+    "@types/vscode": "^1.74.0",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "@vscode/test-electron": "^2.2.0",
+    "eslint": "^8.28.0",
+    "mocha": "^11.5.0",
+    "typescript": "^4.9.4",
+    "vsce": "^2.15.0",
+    "vscode": "^1.1.37"
+  },
+  "dependencies": {
+    "chroma-js": "^2.4.2"
+  }
+}
