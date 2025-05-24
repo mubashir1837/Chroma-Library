@@ -8,7 +8,7 @@ let themeManager: ThemeManager
 let customizerPanel: CustomizerPanel | undefined
 
 export function activate(context: vscode.ExtensionContext) {
-  Logger.info("Neon Futuristic Themes extension is now active")
+  Logger.info("Chroma Library extension is now active")
 
   // Initialize theme manager
   themeManager = new ThemeManager(context)
@@ -94,7 +94,7 @@ export function activate(context: vscode.ExtensionContext) {
             if (selection === "Customize DNA Background") {
               vscode.commands.executeCommand("workbench.action.openSettings", "neonThemes.dnaBackground")
             } else if (selection === "Learn More") {
-              vscode.env.openExternal(vscode.Uri.parse("https://github.com/your-repo/neon-themes#bioinformatics"))
+              vscode.env.openExternal(vscode.Uri.parse("https://github.com/mubashir1837/Chroma-Library#bioinformatics"))
             }
           })
       } catch (error) {
