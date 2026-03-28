@@ -1,4 +1,4 @@
-# Chroma Library — VS Code Theme Extension
+# Chroma Library VS Code Theme Extension
 
 [![Version](https://img.shields.io/visual-studio-marketplace/v/codewithbismillah.chroma-library?style=flat-square)](https://marketplace.visualstudio.com/items?itemName=codewithbismillah.chroma-library)
 [![Downloads](https://img.shields.io/visual-studio-marketplace/d/codewithbismillah.chroma-library?style=flat-square)](https://marketplace.visualstudio.com/items?itemName=codewithbismillah.chroma-library)

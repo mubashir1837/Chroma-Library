@@ -1,3 +1,6 @@
 {
-  "typescript.tsc.autoDetect": "off"
+  "typescript.tsc.autoDetect": "off",
+  "neonThemes.bioMode": true,
+  "neonThemes.dnaBackground.pattern": "random",
+  "neonThemes.dnaBackground.useEmoji": true
 }

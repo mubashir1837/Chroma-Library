@@ -134,7 +134,7 @@ export function activate(context: vscode.ExtensionContext) {
   // Watch for configuration changes
   context.subscriptions.push(
     vscode.workspace.onDidChangeConfiguration((e) => {
-      if (e.affectsConfiguration("neonThemes")) {
+      if (e.affectsConfiguration("neonThemes") || e.affectsConfiguration("workbench.colorTheme")) {
         themeManager.onConfigurationChanged()
       }
     }),

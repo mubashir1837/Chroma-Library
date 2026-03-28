@@ -31,7 +31,11 @@ export class DNABackgroundManager {
     }
 
     const backgroundImage = this.createBackgroundImage(config)
-    const backgroundSize = `${config.size}px ${config.size}px`
+    const isRandom = config.pattern === "random"
+    const bgSize = isRandom ? "800px 800px" : `${config.size}px ${config.size}px`
+    const editorSize = isRandom ? "800px 800px" : `${Math.floor(config.size * 0.8)}px ${Math.floor(config.size * 0.8)}px`
+    const sidebarSize = isRandom ? "800px 800px" : `${Math.floor(config.size * 0.6)}px ${Math.floor(config.size * 0.6)}px`
+    const terminalSize = isRandom ? "800px 800px" : `${Math.floor(config.size * 0.7)}px ${Math.floor(config.size * 0.7)}px`
     const backgroundPosition = this.getBackgroundPosition(config)
 
     return `
@@ -40,72 +44,88 @@ export class DNABackgroundManager {
         position: relative;
       }
       
-      .monaco-workbench::before {
+      .monaco-workbench::after {
         content: '';
         position: fixed;
         top: 0;
         left: 0;
         width: 100vw;
         height: 100vh;
-        background-image: ${backgroundImage};
-        background-size: ${backgroundSize};
-        background-position: ${backgroundPosition};
-        background-repeat: repeat;
-        opacity: ${config.opacity};
-        pointer-events: none;
-        z-index: -1;
+        background-image: ${backgroundImage} !important;
+        background-size: ${bgSize} !important;
+        background-position: ${backgroundPosition} !important;
+        background-repeat: repeat !important;
+        opacity: ${config.opacity} !important;
+        pointer-events: none !important;
+        z-index: 0 !important; /* Over workbench background, under parts */
         ${config.pattern === "helix" ? this.getHelixAnimation() : ""}
       }
 
-      /* Enhanced DNA background for editor */
-      .monaco-editor .view-lines::before {
+      /* Enhanced DNA background for editor content */
+      .monaco-editor .view-lines::after {
         content: '';
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background-image: ${backgroundImage};
-        background-size: ${Math.floor(config.size * 0.8)}px ${Math.floor(config.size * 0.8)}px;
-        background-position: ${backgroundPosition};
-        background-repeat: repeat;
-        opacity: ${config.opacity * 0.6};
-        pointer-events: none;
-        z-index: -1;
+        background-image: ${backgroundImage} !important;
+        background-size: ${editorSize} !important;
+        background-position: ${backgroundPosition} !important;
+        background-repeat: repeat !important;
+        opacity: ${config.opacity * 0.8} !important;
+        pointer-events: none !important;
+        z-index: 1 !important; /* Above text background but behind text */
+      }
+      
+      .monaco-editor .view-lines {
+        z-index: 1;
+      }
+      
+      /* Let the background show through */
+      .monaco-editor, 
+      .monaco-editor .margin, 
+      .monaco-editor-background, 
+      .monaco-editor .inputarea.ime-input {
+        background-color: transparent !important;
+      }
+      
+      .monaco-workbench {
+        background-color: ${config.color.includes("#") ? config.color.slice(0, 7) + "05" : "transparent"} !important; /* Tinted workbench */
       }
 
       /* Sidebar DNA enhancement */
-      .monaco-workbench .part.sidebar::before {
+      .monaco-workbench .part.sidebar::after {
         content: '';
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background-image: ${backgroundImage};
-        background-size: ${Math.floor(config.size * 0.6)}px ${Math.floor(config.size * 0.6)}px;
-        background-position: ${backgroundPosition};
-        background-repeat: repeat;
-        opacity: ${config.opacity * 0.4};
-        pointer-events: none;
-        z-index: -1;
+        background-image: ${backgroundImage} !important;
+        background-size: ${sidebarSize} !important;
+        background-position: ${backgroundPosition} !important;
+        background-repeat: repeat !important;
+        opacity: ${config.opacity * 0.4} !important;
+        pointer-events: none !important;
+        z-index: 0 !important;
       }
 
       /* Terminal DNA background */
-      .monaco-workbench .part.panel .terminal-wrapper::before {
+      .monaco-workbench .part.panel .terminal-wrapper::after {
         content: '';
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background-image: ${backgroundImage};
-        background-size: ${Math.floor(config.size * 0.7)}px ${Math.floor(config.size * 0.7)}px;
-        background-position: ${backgroundPosition};
-        background-repeat: repeat;
-        opacity: ${config.opacity * 0.3};
-        pointer-events: none;
-        z-index: -1;
+        background-image: ${backgroundImage} !important;
+        background-size: ${terminalSize} !important;
+        background-position: ${backgroundPosition} !important;
+        background-repeat: repeat !important;
+        opacity: ${config.opacity * 0.3} !important;
+        pointer-events: none !important;
+        z-index: 0 !important;
       }
     `
   }
@@ -125,45 +145,98 @@ export class DNABackgroundManager {
 
   private createSVGBackground(config: DNABackgroundConfig): string {
     const svgData = this.createSVGPattern(config)
-    const encodedSVG = encodeURIComponent(svgData)
-    return `url("data:image/svg+xml,${encodedSVG}")`
+    return `url("data:image/svg+xml;base64,${Buffer.from(svgData).toString("base64")}")`
   }
 
   private createCanvasWithEmoji(config: DNABackgroundConfig): string {
-    // Create a data URL for emoji background
-    const size = config.size
-    const spacing = config.spacing
+    const size = config.size;
+    const spacing = config.spacing;
+
+    if (config.pattern === "random") {
+      const count = 60; // Increased density for scattered layout
+      const elements = [];
+      for (let i = 0; i < count; i++) {
+        const x = Math.floor(Math.random() * 800);
+        const y = Math.floor(Math.random() * 800);
+        const rot = Math.floor(Math.random() * 360);
+        const scale = 0.5 + Math.random();
+        
+        const svgScale = scale * (size / 24);
+        elements.push(`
+          <g transform="translate(${x}, ${y}) rotate(${rot}) scale(${svgScale}) translate(-12, -12)" 
+             fill="none" 
+             stroke="${config.color}" 
+             stroke-width="2" 
+             stroke-linecap="round" 
+             stroke-linejoin="round" 
+             opacity="1">
+            <path d="m10 16 1.5 1.5" />
+            <path d="m14 8-1.5-1.5" />
+            <path d="M15 2c-1.798 1.998-2.518 3.995-2.807 5.993" />
+            <path d="m16.5 10.5 1 1" />
+            <path d="m17 6-2.891-2.891" />
+            <path d="M2 15c6.667-6 13.333 0 20-6" />
+            <path d="m20 9 .891.891" />
+            <path d="M3.109 14.109 4 15" />
+            <path d="m6.5 12.5 1 1" />
+            <path d="m7 18 2.891 2.891" />
+            <path d="M9 22c1.798-1.998 2.518-3.995 2.807-5.993" />
+          </g>
+        `);
+      }
+      
+      const emojiPattern = `
+        <svg width="800" height="800" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
+          ${elements.join("")}
+        </svg>
+      `;
+      return `data:image/svg+xml;base64,${Buffer.from(emojiPattern).toString("base64")}`;
+    }
 
     // Simple emoji pattern - in a real implementation, you'd use Canvas API
     const emojiPattern = `
       <svg width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <pattern id="dnaPattern" x="0" y="0" width="${spacing}" height="${spacing}" patternUnits="userSpaceOnUse">
-            <text x="${spacing / 2}" y="${spacing / 2}" 
-                  font-size="${size * 0.6}" 
-                  text-anchor="middle" 
-                  dominant-baseline="central"
-                  fill="${config.color}"
-                  opacity="${config.opacity}">🧬</text>
+            <g transform="translate(${spacing / 2}, ${spacing / 2}) scale(${size * 0.4 / 24}) translate(-12, -12)" 
+               fill="none" 
+               stroke="${config.color}" 
+               stroke-width="2" 
+               stroke-linecap="round" 
+               stroke-linejoin="round" 
+               opacity="${config.opacity}">
+              <path d="m10 16 1.5 1.5" />
+              <path d="m14 8-1.5-1.5" />
+              <path d="M15 2c-1.798 1.998-2.518 3.995-2.807 5.993" />
+              <path d="m16.5 10.5 1 1" />
+              <path d="m17 6-2.891-2.891" />
+              <path d="M2 15c6.667-6 13.333 0 20-6" />
+              <path d="m20 9 .891.891" />
+              <path d="M3.109 14.109 4 15" />
+              <path d="m6.5 12.5 1 1" />
+              <path d="m7 18 2.891 2.891" />
+              <path d="M9 22c1.798-1.998 2.518-3.995 2.807-5.993" />
+            </g>
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#dnaPattern)"/>
       </svg>
     `
 
-    return `data:image/svg+xml,${encodeURIComponent(emojiPattern)}`
+    return `data:image/svg+xml;base64,${Buffer.from(emojiPattern).toString("base64")}`
   }
 
   private createSVGPattern(config: DNABackgroundConfig): string {
-    const size = config.size
-    const spacing = config.spacing
+    if (config.pattern === "random") {
+      return this.createRandomHelixPattern(config);
+    }
 
     return `
-      <svg width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg">
+      <svg width="${config.size}" height="${config.size}" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <pattern id="dnaHelixPattern" x="0" y="0" width="${spacing}" height="${spacing}" patternUnits="userSpaceOnUse">
-            <g fill="${config.color}" opacity="${config.opacity}">
-              ${this.generateDNAHelixSVG(spacing)}
+          <pattern id="dnaHelixPattern" x="0" y="0" width="${config.spacing}" height="${config.spacing}" patternUnits="userSpaceOnUse">
+            <g opacity="${config.opacity}">
+              ${this.generateDNAHelixSVG(config.spacing, config.color)}
             </g>
           </pattern>
         </defs>
@@ -172,7 +245,7 @@ export class DNABackgroundManager {
     `
   }
 
-  private generateDNAHelixSVG(spacing: number): string {
+  private generateDNAHelixSVG(spacing: number, color: string): string {
     const centerX = spacing / 2
     const centerY = spacing / 2
     const radius = spacing * 0.3
@@ -182,27 +255,27 @@ export class DNABackgroundManager {
       <path d="M${centerX - radius} ${centerY - radius * 0.8} 
                Q${centerX} ${centerY - radius * 0.4} ${centerX + radius} ${centerY}
                Q${centerX} ${centerY + radius * 0.4} ${centerX - radius} ${centerY + radius * 0.8}" 
-            stroke="currentColor" stroke-width="1" fill="none"/>
+            stroke="${color}" stroke-width="1" fill="none"/>
       
       <path d="M${centerX + radius} ${centerY - radius * 0.8} 
                Q${centerX} ${centerY - radius * 0.4} ${centerX - radius} ${centerY}
                Q${centerX} ${centerY + radius * 0.4} ${centerX + radius} ${centerY + radius * 0.8}" 
-            stroke="currentColor" stroke-width="1" fill="none"/>
+            stroke="${color}" stroke-width="1" fill="none"/>
       
       <!-- Base Pairs -->
       <line x1="${centerX - radius * 0.6}" y1="${centerY - radius * 0.3}" 
             x2="${centerX + radius * 0.6}" y2="${centerY - radius * 0.3}" 
-            stroke="currentColor" stroke-width="0.5"/>
+            stroke="${color}" stroke-width="0.5"/>
       
       <line x1="${centerX - radius * 0.6}" y1="${centerY + radius * 0.3}" 
             x2="${centerX + radius * 0.6}" y2="${centerY + radius * 0.3}" 
-            stroke="currentColor" stroke-width="0.5"/>
+            stroke="${color}" stroke-width="0.5"/>
       
       <!-- Nucleotide Dots -->
-      <circle cx="${centerX - radius * 0.6}" cy="${centerY - radius * 0.3}" r="1" fill="currentColor"/>
-      <circle cx="${centerX + radius * 0.6}" cy="${centerY - radius * 0.3}" r="1" fill="currentColor"/>
-      <circle cx="${centerX - radius * 0.6}" cy="${centerY + radius * 0.3}" r="1" fill="currentColor"/>
-      <circle cx="${centerX + radius * 0.6}" cy="${centerY + radius * 0.3}" r="1" fill="currentColor"/>
+      <circle cx="${centerX - radius * 0.6}" cy="${centerY - radius * 0.3}" r="1" fill="${color}"/>
+      <circle cx="${centerX + radius * 0.6}" cy="${centerY - radius * 0.3}" r="1" fill="${color}"/>
+      <circle cx="${centerX - radius * 0.6}" cy="${centerY + radius * 0.3}" r="1" fill="${color}"/>
+      <circle cx="${centerX + radius * 0.6}" cy="${centerY + radius * 0.3}" r="1" fill="${color}"/>
     `
   }
 
@@ -211,7 +284,7 @@ export class DNABackgroundManager {
       case "grid":
         return "0 0"
       case "random":
-        return this.generateRandomPositions()
+        return "0 0"
       case "helix":
         return "0 0"
       default:
@@ -275,7 +348,7 @@ export class DNABackgroundManager {
       <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <g id="dnaHelix">
-            ${this.generateDNAHelixSVG(config.size)}
+            ${this.generateDNAHelixSVG(config.size, config.color)}
           </g>
         </defs>
         ${positions
